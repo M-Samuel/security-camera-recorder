@@ -1,0 +1,1 @@
+docker run -it --network="host" -d --name CamRecorder -v ./credentials:/root/.aws/credentials:ro --env-file ./.env rstpcam:v1
