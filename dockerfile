@@ -7,6 +7,10 @@ RUN pip3 install awscli
 WORKDIR /scripts
 COPY Run.sh Run.sh
 RUN chmod +x Run.sh
+COPY record.sh record.sh
+RUN chmod +x record.sh
+COPY stores3.sh stores3.sh
+RUN chmod +x stores3.sh
 
 WORKDIR /recordings
 ENTRYPOINT [ "/scripts/Run.sh" ] 
