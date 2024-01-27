@@ -13,7 +13,6 @@ COPY stores3.sh stores3.sh
 RUN chmod +x stores3.sh
 COPY rename.sh rename.sh
 RUN chmod +x rename.sh
-COPY rename.py rename.py
 
 WORKDIR /recordings
 ENTRYPOINT [ "/scripts/Run.sh" ] 
