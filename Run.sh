@@ -8,4 +8,9 @@ P1=$!
 /scripts/stores3.sh &
 P2=$!
 
-wait $P1 $P2
+# upload file to amazon s3 and delete old files
+/scripts/rename.sh &
+P3=$!
+
+
+wait $P1 $P2 $P3
