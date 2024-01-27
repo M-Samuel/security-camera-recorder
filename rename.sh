@@ -24,4 +24,4 @@ find "$TARGET_DIR" -type f -name "*[0-9]*" -exec sh -c '
         mv "$1" "$(dirname "$1")/$new_filename"
         echo "Renamed file: $1 to $new_filename"
     fi
-bash {} \;
+' {} \; # Close the single quote and add {} before \;
