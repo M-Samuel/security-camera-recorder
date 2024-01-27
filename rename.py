@@ -4,11 +4,13 @@ from datetime import datetime
 import re
 import logging
 import pytz
+import os
+import os
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
 # Set the bucket
-bucket = "sm44-security-camera"
+bucket = os.environ.get("S3_BUCKET")
 
 # Get the list of all files in the bucket
 logging.info("Getting the list of all files in the bucket.")
@@ -41,8 +43,11 @@ for file in files:
             # Get the date in 'yyyyMMddHHmmss' format
             date_format = last_modified_dt.strftime('%Y%m%d%H%M%S')
 
+            # Get the directory of the source file
+            directory = os.path.dirname(file)
+
             # Set the new file name
-            new_file = f"stream_piece_{date_format}.mp4"
+            new_file = f"{directory}/stream_piece_{date_format}.mp4"
 
             # Rename the file
             logging.info(f"Renaming file to: {new_file}")
