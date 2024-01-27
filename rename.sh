@@ -14,7 +14,7 @@ echo "Finding files in the source directory that have not been modified in the l
 # Find files in the source directory that have not been modified in the last minute
 # and move them to the target directory
 count=0
-find "$SOURCE_DIR" -type f -mmin +1 -exec mv {} "$TARGET_DIR" \; -exec echo "Moved file: {}" \; -exec sh -c 'count=$((count+1))' \;
+find "$SOURCE_DIR" -type f -mmin +$UPLOAD_FILE_OLDER_MIN -exec mv {} "$TARGET_DIR" \; -exec echo "Moved file: {}" \; -exec sh -c 'count=$((count+1))' \;
 echo "Files moved successfully! Total files moved: $count"
 
 
