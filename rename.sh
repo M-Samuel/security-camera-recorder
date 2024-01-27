@@ -10,18 +10,21 @@ if [ ! -d "$TARGET_DIR" ]; then
     echo "Created target directory: $TARGET_DIR"
 fi
 
-# Find files in the source directory that haven't been modified in the last minute and move them to the target directory
+echo "Finding files in the source directory that have not been modified in the last minute..."
+# Find files in the source directory that have not been modified in the last minute
+# and move them to the target directory
 find "$SOURCE_DIR" -type f -mmin +1 -exec mv {} "$TARGET_DIR" \;
-echo "Moved files from $SOURCE_DIR to $TARGET_DIR"
+echo "Files moved successfully!"
 
-# Rename files in the target directory with Unix timestamp to yyyyMMddHHmmss format and convert to Mauritian time zone
-find "$TARGET_DIR" -type f -name "*[0-9]*" -exec sh -c '
-    filename=$(basename "$1")
-    timestamp="${filename##*_}"
-    if [[ $timestamp =~ ^[0-9]+$ ]]; then
-        new_timestamp=$(date -d "@$timestamp" "+%Y%m%d%H%M%S" -u)
-        new_filename="$(TZ=Indian/Mauritius date -d "$new_timestamp" "+%Y%m%d%H%M%S").${filename##*.}"
-        mv "$1" "$(dirname "$1")/$new_filename"
-        echo "Renamed file: $1 to $new_filename"
+echo "Checking if files have unix timestamp and converting it into yyyyMMddHHmmss format in the Mauritian time zone..."
+# Check if files have unix timestamp and convert it into yyyyMMddHHmmss format in the Mauritian time zone
+for file in "$TARGET_DIR"/*; do
+    if [[ -f "$file" ]]; then
+        timestamp=$(stat -c %Y "$file")
+        formatted_date=$(TZ=Indian/Mauritius date -d "@$timestamp" +"%Y%m%d%H%M%S")
+        new_filename="${file%.*}_$formatted_date.${file##*.}"
+        mv "$file" "$new_filename"
+        echo "Renamed file: $file to $new_filename"
     fi
-' {} \; # Close the single quote and add {} before \;
+done
+echo "Conversion completed!"
