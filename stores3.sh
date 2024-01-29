@@ -19,7 +19,7 @@ do
     done
 
     /scripts/rename.sh
-    aws s3 sync --storage-class STANDARD_IA $UPLOAD_DIRECTORY s3://$S3_BUCKET/$S3_DIRECTORY && rm -f $UPLOAD_DIRECTORY/*
+    aws s3 sync --storage-class $STORAGE_CLASS $UPLOAD_DIRECTORY s3://$S3_BUCKET/$S3_DIRECTORY && rm -f $UPLOAD_DIRECTORY/*
     sleep $SYNC_S3_AFTER_SECONDS
     echo "S3 Bucket Upload Respawning.."
 done
